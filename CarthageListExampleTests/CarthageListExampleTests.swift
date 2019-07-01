@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Quick
 @testable import CarthageListExample
 
 class CarthageListExampleTests: XCTestCase {
