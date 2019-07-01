@@ -1,0 +1,18 @@
+{
+    "targets": [
+        {
+            "name": "Default",
+            "exclude": [
+                "Quick",
+                "Nimble"
+            ]
+        },
+        {
+            "name": "Test",
+            "include": [
+                "Quick",
+                "Nimble"
+            ]
+        }
+    ]
+}

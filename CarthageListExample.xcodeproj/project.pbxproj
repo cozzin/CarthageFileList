@@ -15,6 +15,7 @@
 		C139626A22C88D54000CAEC8 /* CarthageListExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C139626922C88D54000CAEC8 /* CarthageListExampleTests.swift */; };
 		C139627922C88F87000CAEC8 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C139627822C88F87000CAEC8 /* SnapKit.framework */; };
 		C15B00AA22C89343000FA151 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C139627622C88F84000CAEC8 /* Alamofire.framework */; };
+		CEB783D322C9E8D900478DCB /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB783D222C9E8D900478DCB /* Quick.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		C139626B22C88D54000CAEC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C139627622C88F84000CAEC8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		C139627822C88F87000CAEC8 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		CEB783D222C9E8D900478DCB /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEB783D322C9E8D900478DCB /* Quick.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +109,7 @@
 		C139627522C88F84000CAEC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEB783D222C9E8D900478DCB /* Quick.framework */,
 				C139627822C88F87000CAEC8 /* SnapKit.framework */,
 				C139627622C88F84000CAEC8 /* Alamofire.framework */,
 			);
@@ -140,6 +144,7 @@
 				C139626122C88D54000CAEC8 /* Sources */,
 				C139626222C88D54000CAEC8 /* Frameworks */,
 				C139626322C88D54000CAEC8 /* Resources */,
+				CEB783D122C9E1A100478DCB /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -216,13 +221,33 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/Carthage/input.xcfilelist",
+				"$(SRCROOT)/Carthage/Input.xcfilelist",
 			);
 			inputPaths = (
 			);
 			name = Carthage;
 			outputFileListPaths = (
-				"$(SRCROOT)/Carthage/output.xcfilelist",
+				"$(SRCROOT)/Carthage/Output.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+		CEB783D122C9E1A100478DCB /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/Carthage/Input-Test.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = Carthage;
+			outputFileListPaths = (
+				"$(SRCROOT)/Carthage/Output-Test.xcfilelist",
 			);
 			outputPaths = (
 			);
@@ -444,6 +469,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = CarthageListExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -464,6 +493,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = CarthageListExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
