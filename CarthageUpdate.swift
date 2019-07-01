@@ -2,14 +2,15 @@
 
 import Foundation
 
-@discardableResult
-func shell(_ cmd: String) -> Int32 {
-    let task = Process()
-    task.launchPath = "/bin/sh"
-    task.arguments = ["-c", String(format:"%@", cmd)]
-    task.launch()
-    task.waitUntilExit()
-    return task.terminationStatus
+struct Bash {
+    @discardableResult
+    static func run(_ command: String) -> Process {
+        let process: Process = Process()
+        process.launchPath = "/bin/sh"
+        process.arguments = ["-c", String(format:"%@", command)]
+        process.launch()
+        return process
+    }
 }
 
 func mapping(from url: URL) throws -> Package {
@@ -46,7 +47,7 @@ struct FileMaker {
             let ouputFiles = frameworks.reduce("") { $0 + "$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/\($1).framework\n" }
             write(inputFiles, to: folderURL.appendingPathComponent("\(inputFileName).xcfilelist"))
             write(ouputFiles, to: folderURL.appendingPathComponent("\(outputFileName).xcfilelist"))
-            print("Target: \(target.name), Frameworks: \(frameworks)")
+            print("🎯 \(target.name) Target\n\(frameworks.reduce("") { $0 + "\($1)\n" })")
         }
     }
     
@@ -81,11 +82,23 @@ struct FrameworkFinder {
     }
 }
 
-if CommandLine.arguments.count > 1 {
-    shell("carthage update \(CommandLine.arguments[1]) --platform iOS")
-} else {
-    shell("carthage update --platform iOS")
+var process: Process?
+
+signal(SIGINT, SIG_IGN) // Make sure the signal does not terminate the application.
+
+let sigintSrc = DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
+sigintSrc.setEventHandler {
+    process?.terminate()
+    exit(0)
 }
+sigintSrc.resume()
+
+if CommandLine.arguments.count > 1 {
+    process = Bash.run("carthage update \(CommandLine.arguments[1]) --platform iOS")
+} else {
+    process = Bash.run("carthage update --platform iOS")
+}
+process?.waitUntilExit()
 
 let rootURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let fileURL = rootURL.appendingPathComponent("Cartfile.pack")
@@ -96,7 +109,7 @@ do {
     let package = try mapping(from: fileURL)
     let existedFrameworks = try FrameworkFinder(url: frameworkURL).findNames()
     let fileMaker = FileMaker(package: package, existedFrameworks: existedFrameworks)
-    print("ExistedFrameworks: \(existedFrameworks)")
+    print("🧰  Downloaded Frameworks\n\(existedFrameworks.reduce("") { $0 + "\($1)\n" })")
     try fileMaker.make(toFolderURL: outputURL)
 } catch {
     print("Exception: \(error)")

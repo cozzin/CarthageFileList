@@ -4,14 +4,18 @@
             "name": "Default",
             "exclude": [
                 "Quick",
-                "Nimble"
+                "Nimble",
+                "RxBlocking",
+                "RxTest"
             ]
         },
         {
             "name": "Test",
             "include": [
                 "Quick",
-                "Nimble"
+                "Nimble",
+                "RxBlocking",
+                "RxTest"
             ]
         }
     ]
